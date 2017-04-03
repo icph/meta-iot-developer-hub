@@ -1,0 +1,26 @@
+From 17baf320b2f4397347ee9ff9d5b0a506b5a474b4 Mon Sep 17 00:00:00 2001
+From: Xin Ouyang <xin.ouyang@windriver.com>
+Date: Fri, 19 Jun 2015 17:23:18 +0800
+Subject: [PATCH] nginx: hide server name in http header.
+
+Signed-off-by: Xin Ouyang <xin.ouyang@windriver.com>
+---
+ src/http/ngx_http_header_filter_module.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/http/ngx_http_header_filter_module.c b/src/http/ngx_http_header_filter_module.c
+index 507dc93..90234d5 100644
+--- a/src/http/ngx_http_header_filter_module.c
++++ b/src/http/ngx_http_header_filter_module.c
+@@ -46,7 +46,7 @@ ngx_module_t  ngx_http_header_filter_module = {
+ };
+ 
+ 
+-static char ngx_http_server_string[] = "Server: nginx" CRLF;
++static char ngx_http_server_string[] = "Server: unknown" CRLF;
+ static char ngx_http_server_full_string[] = "Server: " NGINX_VER CRLF;
+ 
+ 
+-- 
+1.9.1
+

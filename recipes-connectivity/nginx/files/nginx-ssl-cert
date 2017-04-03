@@ -1,0 +1,78 @@
+#!/bin/bash -e
+
+SSL_CERT=/etc/nginx/ssl/ssl-cert-snakeoil.pem
+SSL_CERT_KEY=/etc/nginx/ssl/ssl-cert-snakeoil.key
+
+FORCE=0
+
+eval set -- "`getopt -o fh -l force,help -- "$@"`"
+
+while true ; do
+    case "$1" in
+        -f|--force) FORCE=1 ; shift ;;
+        -h|--help)
+            echo -e >&2 "Usage: $0 [options]\n" ;
+            echo -e >&2 "Options:" ;
+            echo -e >&2 " -f, --force                remove existing destination files" ;
+            echo -e >&2 " -h, --help                 print this usage message and exit" ;
+            exit 1 ;;
+        --) shift ; break ;;
+        *) echo "Internal error!" ; exit 1 ;;
+    esac
+done
+
+if [ -f "$SSL_CERT" ] && [ -f "$SSL_CERT_KEY" ]; then
+    if [ "$FORCE" != "1" ]; then
+         exit 0
+    fi
+fi
+
+HostName="$(hostname -f 2>/dev/null)" || HostName="$(hostname 2>/dev/null)"
+
+if [ ${#HostName} -gt 64 ] ; then
+    AltName="DNS:$HostName"
+    HostName="$(hostname 2>/dev/null)"
+fi
+
+TMPFILE="$(mktemp)" || exit 1
+TMPOUT="$(mktemp)"  || exit 1
+
+trap "rm -f $TMPFILE $TMPOUT" EXIT
+
+cat <<-EOF > $TMPFILE
+RANDFILE                = /dev/urandom
+
+[ req ]
+default_bits            = 2048
+default_keyfile         = privkey.pem
+distinguished_name      = req_distinguished_name
+prompt                  = no
+policy                  = policy_anything
+req_extensions          = v3_req
+x509_extensions         = v3_req
+
+[ req_distinguished_name ]
+commonName                      = $HostName
+
+[ v3_req ]
+basicConstraints        = CA:FALSE
+EOF
+
+[ -z "$AltName" ] || echo "subjectAltName=$AltName" >> $TMPFILE
+
+mkdir -p $(dirname $SSL_CERT)
+mkdir -p $(dirname $SSL_CERT_KEY)
+if ! openssl req -config $TMPFILE -new -x509 -days 3650 -nodes \
+    -out $SSL_CERT \
+    -keyout $SSL_CERT_KEY > $TMPOUT 2>&1
+then
+    echo Could not create certificate. Openssl output was: >&2
+    cat $TMPOUT >&2
+    exit 1
+fi
+
+chmod 644 $SSL_CERT
+chmod 640 $SSL_CERT_KEY
+chown root:www-data $SSL_CERT_KEY
+
+exit 0

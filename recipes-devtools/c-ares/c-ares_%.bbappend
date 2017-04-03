@@ -1,0 +1,1 @@
+CFLAGS=" -O2 -pipe -g -feliminate-unused-debug-types -fstack-protector-strong -pie -fpie -O2 -Wformat -Wformat-security"

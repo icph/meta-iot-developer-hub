@@ -1,0 +1,13 @@
+[Unit]
+Description=nginx Web Server
+After=syslog.target network.target
+
+[Service]
+Type=forking
+ExecStartPre=/bin/mkdir -p /var/run/nginx /var/log/nginx
+ExecStartPre=/usr/sbin/nginx-ssl-cert
+ExecStart=/usr/sbin/nginx
+TimeoutSec=0
+
+[Install]
+WantedBy=multi-user.target

@@ -1,0 +1,43 @@
+#!/bin/sh
+
+# Copyright (c) 2015 Wind River Systems, Inc.
+# The right to copy, distribute, modify, or otherwise
+# make use of this software may be licensed only pursuant
+# to the terms of an applicable Wind River license agreement.
+#
+
+#This tool is used to add/delete/update the nginx
+#password db of basic authentication.
+
+openssl=/usr/bin/openssl
+passdb=/etc/nginx/nginx_passwd
+
+Usage() {
+	echo "Usage: nginx-pass -a <username> <password> [passwd-file] #add user/password"
+	echo "                  -u <username> <password> [passwd-file] #update password"
+	echo "                  -d <username> [passwd-file]            #delete user"
+	echo "Default passwd-file is /etc/nginx/nginx_passwd if not set."
+	exit 1
+}
+
+case $1 in
+	-a|-u)
+		name="$2"
+		pass="$3"
+		[ -e "$4" ] && passdb="$4"
+		[ -z "${name}" -o -z "${pass}" ] && Usage
+		sed -i -e "/^${name}:/d" ${passdb} >/dev/null 2>&1
+		echo "${name}:`${openssl} passwd -1 ${pass}`" >> ${passdb}
+		;;
+	-d)
+		name="$2"
+		[ -e "$3" ] && passdb="$3"
+		[ -z "${name}" ] && Usage
+		sed -i -e "/^${name}:/d" ${passdb} >/dev/null 2>&1
+		;;
+	*)
+		Usage
+		;;
+esac
+
+exit 0
