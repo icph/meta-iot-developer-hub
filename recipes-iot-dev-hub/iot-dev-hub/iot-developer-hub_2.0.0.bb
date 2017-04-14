@@ -3,7 +3,7 @@ DESCRIPTION = "Provides website and scripts needed for the Intel Package Reposit
 LICENSE = "GPLv2"
 SECTION = "webconsole"
 
-PR = "r1.0.9"
+PR = "r1.0.10"
 
 S = "${WORKDIR}/git"
 
