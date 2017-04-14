@@ -7,7 +7,7 @@ PR = "r1.0.9"
 
 S = "${WORKDIR}/git"
 
-SRC_URI = "git://github.com/icph/icph;protocol=git;branch=master;rev=ce8f1eba1e10d2820c5718e631c923a916b66a39"
+SRC_URI = "git://github.com/icph/icph;protocol=git;branch=master;rev=85e900feb03a57e82d12ecb1e79cfef28842fa17"
 LIC_FILES_CHKSUM = "file://README.md;md5=4dc01af0703b921b12b1e81c5409b0cb"
 
 inherit systemd
