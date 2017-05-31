@@ -1,0 +1,66 @@
+From c1c5c82addc7f5bb2454b9b6878594a34a3092f0 Mon Sep 17 00:00:00 2001
+From: Anuj Mittal <anujx.mittal@intel.com>
+Date: Wed, 22 Feb 2017 16:09:43 +0800
+Subject: [PATCH 2/3] firefox: change homepage to devhub startup page
+
+Change the pref to localhost:82.
+
+Signed-off-by: Anuj Mittal <anujx.mittal@intel.com>
+Signed-off-by: Chew, Chiau Ee <chiau.ee.chew@intel.com>
+---
+ ...efox-set-homepage-to-show-devhub-homepage.patch | 28 ++++++++++++++++++++++
+ recipes-mozilla/firefox/firefox_38.2.1esr.bbappend |  6 +++++
+ 2 files changed, 34 insertions(+)
+ create mode 100644 recipes-mozilla/firefox/firefox/0001-firefox-set-homepage-to-show-devhub-homepage.patch
+
+diff --git a/recipes-mozilla/firefox/firefox/0001-firefox-set-homepage-to-show-devhub-homepage.patch b/recipes-mozilla/firefox/firefox/0001-firefox-set-homepage-to-show-devhub-homepage.patch
+new file mode 100644
+index 0000000..e8c5ab3
+--- /dev/null
++++ b/recipes-mozilla/firefox/firefox/0001-firefox-set-homepage-to-show-devhub-homepage.patch
+@@ -0,0 +1,28 @@
++From 83cf419061f075e4e1b75b0a6a4d5e38b0d7df4f Mon Sep 17 00:00:00 2001
++From: Anuj Mittal <anujx.mittal@intel.com>
++Date: Wed, 22 Feb 2017 16:21:05 +0800
++Subject: [PATCH] firefox: set homepage to show devhub homepage
++
++Upstream-Status: Inappropriate [Project specific]
++
++Signed-off-by: Anuj Mittal <anujx.mittal@intel.com>
++---
++ browser/app/profile/firefox.js | 2 +-
++ 1 file changed, 1 insertion(+), 1 deletion(-)
++
++diff --git a/browser/app/profile/firefox.js b/browser/app/profile/firefox.js
++index 5345683..b79734c 100644
++--- a/browser/app/profile/firefox.js
+++++ b/browser/app/profile/firefox.js
++@@ -273,7 +273,7 @@ pref("browser.shell.shortcutFavicons",true);
++ // 0 = blank, 1 = home (browser.startup.homepage), 2 = last visited page, 3 = resume previous browser session
++ // The behavior of option 3 is detailed at: http://wiki.mozilla.org/Session_Restore
++ pref("browser.startup.page",                1);
++-pref("browser.startup.homepage",            "chrome://branding/locale/browserconfig.properties");
+++pref("browser.startup.homepage",            "http://localhost:82/");
++ 
++ pref("browser.slowStartup.notificationDisabled", false);
++ pref("browser.slowStartup.timeThreshold", 40000);
++-- 
++1.9.1
++
+diff --git a/recipes-mozilla/firefox/firefox_38.2.1esr.bbappend b/recipes-mozilla/firefox/firefox_38.2.1esr.bbappend
+index 70670de..12204c6 100644
+--- a/recipes-mozilla/firefox/firefox_38.2.1esr.bbappend
++++ b/recipes-mozilla/firefox/firefox_38.2.1esr.bbappend
+@@ -1,3 +1,9 @@
++FILESEXTRAPATHS_prepend := "${THISDIR}/${PN}:"
++
++SRC_URI += "\
++            file://0001-firefox-set-homepage-to-show-devhub-homepage.patch \
++            "
++
+ do_install_append() {
+         install -d ${D}${sysconfdir}/xdg/autostart
+         install -m 0644 ${WORKDIR}/mozilla-firefox.desktop ${D}${sysconfdir}/xdg/autostart/
+-- 
+1.9.1
+
