@@ -79,6 +79,6 @@ do_install() {
 
 SYSTEMD_SERVICE_${PN} = "node-cloudcmd.service"
 DEPENDS = "nodejs nodejs-native"
-INSANE_SKIP_${PN} = "staticdev debug-files file-rdeps"
+INSANE_SKIP_${PN} = "staticdev debug-files file-rdeps already-stripped"
 FILES_${PN} = "${WR_HOME} /usr/lib /etc/nginx/conf.d /lib/systemd"
 RDEPENDS_${PN} = "nodejs"
