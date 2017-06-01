@@ -26,5 +26,5 @@ FILES_${PN} += " \
 
 CONFFILES = "/var/www/www-repo-gui/proxy_env /var/www/www-repo-gui/python/developer_hub_config /var/www/www-repo-gui/python/repo_tracking"
 
-RDEPENDS_${PN} = "cherrypy pexpect simplejson routes python-lxml python-netifaces nginx mosquitto node-red-experience node-cloudcmd"
+RDEPENDS_${PN} = "cherrypy pexpect simplejson routes python-lxml python-netifaces nginx mosquitto node-red-experience node-cloudcmd python-pycurl"
 PACKAGES = "${PN}"
