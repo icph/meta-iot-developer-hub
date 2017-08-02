@@ -1,0 +1,28 @@
+From 83cf419061f075e4e1b75b0a6a4d5e38b0d7df4f Mon Sep 17 00:00:00 2001
+From: Anuj Mittal <anujx.mittal@intel.com>
+Date: Wed, 22 Feb 2017 16:21:05 +0800
+Subject: [PATCH] firefox: set homepage to show devhub homepage
+
+Upstream-Status: Inappropriate [Project specific]
+
+Signed-off-by: Anuj Mittal <anujx.mittal@intel.com>
+---
+ browser/app/profile/firefox.js | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/browser/app/profile/firefox.js b/browser/app/profile/firefox.js
+index 5345683..b79734c 100644
+--- a/browser/app/profile/firefox.js
++++ b/browser/app/profile/firefox.js
+@@ -273,7 +273,7 @@ pref("browser.shell.shortcutFavicons",true);
+ // 0 = blank, 1 = home (browser.startup.homepage), 2 = last visited page, 3 = resume previous browser session
+ // The behavior of option 3 is detailed at: http://wiki.mozilla.org/Session_Restore
+ pref("browser.startup.page",                1);
+-pref("browser.startup.homepage",            "chrome://branding/locale/browserconfig.properties");
++pref("browser.startup.homepage",            "http://localhost:82/");
+ 
+ pref("browser.slowStartup.notificationDisabled", false);
+ pref("browser.slowStartup.timeThreshold", 40000);
+-- 
+1.9.1
+
